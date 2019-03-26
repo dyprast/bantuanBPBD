@@ -1,0 +1,28 @@
+        .container-login100{
+            background: #F0F0F0 !important;
+        }
+        .wrap-login100{
+            background-color: rgba(255,255,255,.8);
+            width: 400px !important;
+            z-index: 1;
+        }
+        .input100{
+            height: 54px !important;
+            font-size: 15px !important;
+        }
+        .container-login100::before{
+            background: #eee !important;
+        }
+        .login100-form-btn{
+            height: 54px !important;
+            font-size: 15px !important;
+        }
+        .background-img{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            object-fit: cover;
+        }
+        .background-img img{
+            width: 100%;
+        }

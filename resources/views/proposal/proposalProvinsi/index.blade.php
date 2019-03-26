@@ -1,0 +1,97 @@
+@extends('layouts.app')
+
+@section('content')
+		<div class="page-wrapper">
+			<div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Proposal Permintaan BPBD Provinsi</h4>
+                        <div class="ml-auto text-right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Data</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Proposal</li>
+                                    <li class="breadcrumb-item active" aria-current="page">BPBD Provinsi</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Index</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">		
+						<div class="card">
+                            <div class="card-body">
+                                <div style="display: flex;justify-content: space-between;">
+                                	<h5 class="card-title">Data Proposal Permintaan BPBD Provinsi</h5>
+                                    <div>
+                                	    <a href="{{ url('proposalPermintaan/provinsi/tambahProposalProvinsi') }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Tambah Proposal"><i class="fas fa-plus"></i></a>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="table-responsive">
+                                    <table id="zero_config" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tanggal / Nomor</th>
+                                                <th>Asal</th>
+                                                <th>Jenis Bantuan</th>
+                                                <th>Isi Ringkasan</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i = 1; ?>
+                                                @foreach($proposals as $res)
+                                                <div class="modal fade" id="ModalProposalProv{{$i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <embed id="iframe{{$i}}" src="{{ asset('UploadedFile/Proposal') }}/{{ $res->id_provinsi }}/{{ $res->jenis_bantuan }}/{{ $res->isi_ringkasan }}" style="width: 100%;height: 100%;"></embed>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $res->tanggal }} / {{ $res->nomor }}</td>
+                                                    <td>BPBD Provinsi {{ $res->provinsi->provinsi }}</td>
+                                                    <td>{{ $res->jenis_bantuan }}</td>
+                                                    @if(!empty($res->isi_ringkasan))
+                                                    <td><a href="#" id="open-file{{ $i }}" data-toggle="modal" data-target="#ModalProposalProv{{$i}}">{{ $res->isi_ringkasan }}</a></td>
+                                                    @else
+                                                    <td>-</td>
+                                                    @endif
+                                                    <td class="action-table">
+                                                        <a href="{{ url('proposalPermintaan/provinsi/editProposalProvinsi/'.$res->id) }}" class="btn btn-secondary btn-sm"><i class="far fa-edit"></i></a>
+                                                        <a href="#" data-uri="{{ url('proposalPermintaan/provinsi/hapusProposalProvinsi/'.$res->id) }}" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCModal"><i class="far fa-trash-alt"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <?php $i++; ?>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if(session('alertHapus'))
+        <script>
+            toastr.success("Proposal BPBD Provinsi {{ session('alertHapus') }}", "Berhasil Menghapus Data");
+        </script>
+        @elseif(session('alertEdit'))
+        <script>
+            toastr.success("Proposal BPBD Provinsi {{ session('alertEdit') }}", "Berhasil Memperbarui Data");
+        </script>
+        @elseif(session('alertTambah'))
+        <script>
+            toastr.success("Proposal BPBD Provinsi {{ session('alertTambah') }}", "Berhasil Menambah Data");
+        </script>
+        @endif
+@endsection
